@@ -1,17 +1,53 @@
+# About
+
+This is a very simple proof of concept of a standalone Electron app
+for macOS that includes a nested Clozure Common Lisp process running a
+Hunchentoot server.
+
 # Prerequisites
 
 ## Node
 
 * Node 8.9.4 LTS is required.
 
-* Electron-packager must be installed globally:
+## CCL
+
+* Clozure CL 1.11.5 is required, and must be on the path as `ccl`.
+
+* Quicklisp is required.
+
+# Install
 
 ....
+npm install
 sudo npm install electron-packager -g
 ....
 
-## CCL
+# Build macOS application
 
-* Clozure CL 1.11.5 is required, and must be on the path as "ccl".
+....
+./build.sh
+....
 
-* Quicklisp is required.
+# How it works
+
+The link:build.sh[] script does two things:
+
+First, it builds a standalone CCL executable containing the
+Hunchentoot server, by loading link:lisp/main.lisp[] and after that
+link:lisp/save-app.lisp[] that uses CCL's
+link:https://ccl.clozure.com/manual/chapter4.9.html[`save-application`].
+
+Second, it uses
+link:https://github.com/electron-userland/electron-packager[`electron-packager`]
+to bundle the current dir (including the nested standalone Lisp executable)
+into a macOS application bundle.
+
+The resulting Electron app's link:main.js[] spawns the Lisp executable
+as a child process, and creates a window pointing at the server.  It
+should also be possible to do arbitrary HTTP calls to Hunchentoot from
+the UI (might require setting CORS headers, haven't tested it yet).
+
+# Caveats
+
+Doesn't do any error handling, just a plain proof of concept.
