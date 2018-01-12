@@ -2,7 +2,9 @@
 
 ## Node
 
-Node 8.9.4 LTS is required.
+* Node 8.9.4 LTS is required.
+
+* Electron-packager must be installed globally:
 
 ....
 sudo npm install electron-packager -g
@@ -10,8 +12,6 @@ sudo npm install electron-packager -g
 
 ## CCL
 
-* Clozure 'CL 1.11.5 is required, and should be on the path as "ccl".
+* Clozure 'CL 1.11.5 is required, and must be on the path as "ccl".
 
 * Quicklisp is required.
-
-
