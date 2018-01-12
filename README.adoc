@@ -12,6 +12,6 @@ sudo npm install electron-packager -g
 
 ## CCL
 
-* Clozure 'CL 1.11.5 is required, and must be on the path as "ccl".
+* Clozure CL 1.11.5 is required, and must be on the path as "ccl".
 
 * Quicklisp is required.
