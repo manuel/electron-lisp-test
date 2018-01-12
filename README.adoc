@@ -46,7 +46,7 @@ into a macOS application bundle.
 The resulting Electron app's link:main.js[] spawns the Lisp executable
 as a child process, and creates a window pointing at the server.  It
 should also be possible to do arbitrary HTTP calls to Hunchentoot from
-the UI (might require setting CORS headers, haven't tested it yet).
+Electron (might require setting CORS headers, haven't tested it yet).
 
 # Caveats
 
