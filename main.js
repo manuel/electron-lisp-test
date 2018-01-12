@@ -1,9 +1,16 @@
 var electron = require("electron");
 var app = electron.app;
-var dialog = electron.dialog;
+var BrowserWindow = electron.BrowserWindow;
 
-app.on("ready", create_window);
+var spawn = require("child_process").spawn;
+var path = require("path");
 
-function create_window() {
-    dialog.showErrorBox("Hello", "World");
+app.on("ready", load);
+
+var mainWindow = null;
+
+function load() {
+    spawn(path.resolve(__dirname, "lisp/run"), []);
+    mainWindow = new BrowserWindow();
+    mainWindow.loadURL("http://localhost:8000");
 }
