@@ -1,8 +1,10 @@
 ;;;;; Main Lisp server entry point
 (ql:quickload '(:websocket-driver-server :clack))
 
+(defconstant +server+ :hunchentoot)
+
 ; Required, otherwise Clack will try to compile Hunchentoot at runtime
-(clack.util:find-handler :hunchentoot)
+(clack.util:find-handler +server+)
 
 (use-package :websocket-driver)
 
@@ -19,31 +21,17 @@
           (declare (ignore responder))
           (start-connection ws))))
      (t
-      '(200 (:content-type "text/html")
-            (
-             "<script>
-alert('foo');
-var url = 'ws://localhost:8080/echo';
-var ws = new WebSocket(url);
-var msg = 'hi, this is simple message.';
-ws.onopen = function(evt) {
-  console.log('send');
-  ws.send(msg);
-};
-ws.onmessage = function(evt) {
-  alert('received: ' + evt.data);
-};
-ws.onclose = function(evt) {
-  alert(evt);
-};
-ws.onerror = function(evt) {
-  alert(evt);
-};
-</script>
-"))))))
+      `(200 (:content-type "text/html")
+            (,(file-to-string "./webapp/index.html")))))))
+
+(defun file-to-string (filename)
+  (with-open-file (stream filename)
+    (let ((contents (make-string (file-length stream))))
+      (read-sequence contents stream)
+      contents)))
 
 (defun main ()
-  (clack:clackup *echo-server* :server :hunchentoot :port 8080)
+  (clack:clackup *echo-server* :server +server+ :port 8080)
   ;; Prevent the app from exiting, there's probably a better way
   (read))
 
