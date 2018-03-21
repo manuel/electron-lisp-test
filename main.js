@@ -3,7 +3,9 @@
 var electron = require("electron");
 var app = electron.app;
 var BrowserWindow = electron.BrowserWindow;
+var dialog = electron.dialog;
 
+var ab2str = require("arraybuffer-to-string")
 var async = require("async");
 
 var http = require("http");
@@ -24,7 +26,15 @@ var lispProcess = null;
 
 function load() {
     // Spawn Lisp executable
-    lispProcess = spawn(path.resolve(__dirname, "lisp/run"), []);
+    dialog.showErrorBox("Electron __dirname", __dirname);
+    lispProcess = spawn(path.resolve(__dirname, "lisp/run"), [], { cwd: __dirname });
+    lispProcess.stdout.on("data", function(data) {
+            dialog.showErrorBox("Lisp stdout:", ab2str(data));
+        });
+    lispProcess.stderr.on("data", function(data) {
+            dialog.showErrorBox("Lisp stderr: ", ab2str(data));
+        });
+
     // Create window
     setTimeout(function () {
             mainWindow = new BrowserWindow();

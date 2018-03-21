@@ -19,30 +19,18 @@
           (declare (ignore responder))
           (start-connection ws))))
      (t
-      '(200 (:content-type "text/html")
-            (
-             "<script>
-alert('foo');
-var url = 'ws://localhost:8080/echo';
-var ws = new WebSocket(url);
-var msg = 'hi, this is simple message.';
-ws.onopen = function(evt) {
-  console.log('send');
-  ws.send(msg);
-};
-ws.onmessage = function(evt) {
-  alert('received: ' + evt.data);
-};
-ws.onclose = function(evt) {
-  alert(evt);
-};
-ws.onerror = function(evt) {
-  alert(evt);
-};
-</script>
-"))))))
+      `(200 (:content-type "text/html")
+            (,(file-to-string (merge-pathnames "webapp/index.html" (lw:current-pathname)))))))))
+
+(defun file-to-string (filename)
+  (with-open-file (stream filename)
+    (let ((contents (make-string (file-length stream))))
+      (read-sequence contents stream)
+      contents)))
 
 (defun main ()
+  (print (lw:current-pathname))
+  (print (hcl:get-working-directory))
   (clack:clackup *echo-server* :server :hunchentoot :port 8080)
   ;; Prevent the app from exiting, there's probably a better way
   (read))
