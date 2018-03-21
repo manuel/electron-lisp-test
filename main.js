@@ -4,8 +4,13 @@ var electron = require("electron");
 var app = electron.app;
 var BrowserWindow = electron.BrowserWindow;
 
+var async = require("async");
+
+var http = require("http");
 var spawn = require("child_process").spawn;
 var path = require("path");
+
+var MAIN_URL = "http://localhost:8080";
 
 // Wait for Electron readiness
 app.on("ready", load);
@@ -20,15 +25,36 @@ var lispProcess = null;
 function load() {
     // Spawn Lisp executable
     lispProcess = spawn(path.resolve(__dirname, "lisp/run"), []);
-    setTimeout(function() {
+    // Create window
+    setTimeout(function () {
+            mainWindow = new BrowserWindow();
+            mainWindow.loadURL(MAIN_URL);
+            mainWindow.openDevTools();
+        }, 500);
+    /*
+    waitForLispAndThenCall(function() {
             // Create window
             mainWindow = new BrowserWindow();
-            mainWindow.loadURL("http://localhost:8080");
+            mainWindow.loadURL(MAIN_URL);
             mainWindow.openDevTools();
-        },
-        1000);
+        });
+    */
 }
-
+/*
+function waitForLispAndThenCall(fn) {
+    async.retry({ times: 5, interval: 200 },
+                function(cb) {
+                    http.request(MAIN_URL, cb);
+                },
+                function(err) {
+                    if (err) {
+                        dialog.showErrorBox("Error", "Lisp didn't start: " + err);
+                    } else {
+                        fn();
+                    }
+                });
+}
+*/
 function quit() {
     if (lispProcess !== null) {
         lispProcess.kill("SIGKILL");
