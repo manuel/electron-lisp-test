@@ -10,13 +10,28 @@ var path = require("path");
 // Wait for Electron readiness
 app.on("ready", load);
 
+app.on("quit", quit);
+
 // Keep reference to window to prevent it being GC'ed
 var mainWindow = null;
 
+var lispProcess = null;
+
 function load() {
     // Spawn Lisp executable
-    spawn(path.resolve(__dirname, "lisp/run"), []);
-    // Create window
-    mainWindow = new BrowserWindow();
-    mainWindow.loadURL("http://localhost:8000");
+    lispProcess = spawn(path.resolve(__dirname, "lisp/run"), []);
+    setTimeout(function() {
+            // Create window
+            mainWindow = new BrowserWindow();
+            mainWindow.loadURL("http://localhost:8080");
+            mainWindow.openDevTools();
+        },
+        1000);
+}
+
+function quit() {
+    if (lispProcess !== null) {
+        lispProcess.kill("SIGKILL");
+        lispProcess = null;
+    }
 }
