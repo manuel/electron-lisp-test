@@ -9,7 +9,7 @@
 (defvar *echo-server*
   (lambda (env)
     (cond
-     ((string= "/echo" (getf env :request-uri))
+     ((string= "/ws" (getf env :request-uri))
       (let ((ws (make-server env)))
         (on :message ws
             (lambda (message)
@@ -18,6 +18,9 @@
         (lambda (responder)
           (declare (ignore responder))
           (start-connection ws))))
+     ((string= "/script.js" (getf env :request-uri))
+      `(200 (:content-type "text/javascript")
+            (,(file-to-string (merge-pathnames "webapp/script.js" (lw:current-pathname))))))
      (t
       `(200 (:content-type "text/html")
             (,(file-to-string (merge-pathnames "webapp/index.html" (lw:current-pathname)))))))))
