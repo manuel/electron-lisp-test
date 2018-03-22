@@ -7,7 +7,7 @@
 (progn
   (load-all-patches)
   (setf system:*stack-overflow-behaviour* :warn)
-  (load "/Users/manuel/emo/asdf.lisp")
+  (load "./lib/asdf.lisp")
   (provide "asdf")
   #-quicklisp
   (let ((quicklisp-init (merge-pathnames "quicklisp/setup.lisp" (user-homedir-pathname))))

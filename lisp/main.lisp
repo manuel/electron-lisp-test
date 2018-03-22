@@ -1,7 +1,7 @@
 ;;;;; Main Lisp server entry point
 (ql:quickload '(:websocket-driver-server :clack))
 
-; Required, otherwise Clack will try to compile Hunchentoot at runtime
+; Required, otherwise Clack will try to load/compile Hunchentoot at runtime
 (clack.util:find-handler :hunchentoot)
 
 (use-package :websocket-driver)
@@ -29,8 +29,6 @@
       contents)))
 
 (defun main ()
-  (print (lw:current-pathname))
-  (print (hcl:get-working-directory))
   (clack:clackup *echo-server* :server :hunchentoot :port 8080)
   ;; Prevent the app from exiting, there's probably a better way
   (read))
