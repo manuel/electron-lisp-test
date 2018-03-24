@@ -41,10 +41,10 @@
 (defclass message ()
   ((text :accessor message-text :initarg :text)
    (type :accessor message-type :initarg :type)
-   (channel-id :accessor message-channel-id :initarg :channel-id)
+   (channel :accessor message-channel :initarg :channel)
    (id :accessor message-id :initarg :id)))
 
-(defun make-message (&key type text channel-id id &rest args)
+(defun make-message (&key type text channel id &rest args)
   (apply #'make-instance 'message args))
 
 (defun json-to-message (json)
@@ -52,14 +52,14 @@
     (make-instance 'message
                    :text (gethash "text" ht)
                    :type (gethash "type" ht)
-                   :channel-id (gethash "channel-id" ht)
+                   :channel (gethash "channel" ht)
                    :id (gethash "id" ht))))
 
 (defun message-to-json (message)
   (let ((ht (make-hash-table :test #'equal)))
     (setf (gethash "text" ht) (message-text message))
     (setf (gethash "type" ht) (message-type message))
-    (setf (gethash "channel-id" ht) (message-channel-id message))
+    (setf (gethash "channel" ht) (message-channel message))
     (setf (gethash "id" ht) (message-id message))
     (with-output-to-string (*standard-output*)
       (yason:encode ht))))
