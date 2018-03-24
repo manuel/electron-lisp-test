@@ -14,9 +14,9 @@
      ((string= "/ws" (getf env :request-uri))
       (let ((ws (make-server env)))
         (on :message ws
-            (lambda (msg)
-              (let ((msg-obj (yason:parse msg)))
-                (send ws (gethash "text" msg-obj)))))
+            (lambda (json)
+              (let ((message (json-to-message json)))
+                (send ws (message-to-json message)))))
         (lambda (responder)
           (declare (ignore responder))
           (start-connection ws))))
@@ -38,11 +38,35 @@
   ;; Prevent the app from exiting, there's probably a better way
   (read))
 
+(defclass message ()
+  ((text :accessor message-text :initarg :text)
+   (type :accessor message-type :initarg :type)
+   (channel-id :accessor message-channel-id :initarg :channel-id)
+   (id :accessor message-id :initarg :id)))
+
+(defun make-message (&key type text channel-id id &rest args)
+  (apply #'make-instance 'message args))
+
+(defun json-to-message (json)
+  (let ((ht (yason:parse json)))
+    (make-instance 'message
+                   :text (gethash "text" ht)
+                   :type (gethash "type" ht)
+                   :channel-id (gethash "channel-id" ht)
+                   :id (gethash "id" ht))))
+
+(defun message-to-json (message)
+  (let ((ht (make-hash-table :test #'equal)))
+    (setf (gethash "text" ht) (message-text message))
+    (setf (gethash "type" ht) (message-type message))
+    (setf (gethash "channel-id" ht) (message-channel-id message))
+    (setf (gethash "id" ht) (message-id message))
+    (with-output-to-string (*standard-output*)
+      (yason:encode ht))))
+
 #|
 (defclass channel ()
   ((messages :accessor messages-of)
    (message-count :accessor message-count-of)))
 
-(defclass message ()
-  ((text-content :accessor text-content-of)))
 |#
