@@ -1,15 +1,14 @@
 webapp = {};
 
 webapp.load = function() {
-    var url = 'ws://localhost:8080/ws';
+    var url = "ws://localhost:8080/ws";
     var ws = new WebSocket(url);
-    var msg = 'hi, this is simple message.';
+    var msg = { "text": "hi, this is a simple message." };
     ws.onopen = function(evt) {
-        console.log('send');
-        ws.send(msg);
+        ws.send(JSON.stringify(msg));
     };
     ws.onmessage = function(evt) {
-        alert('received: ' + evt.data);
+        alert("received: " + evt.data);
     };
     ws.onclose = function(evt) {
         alert(evt);

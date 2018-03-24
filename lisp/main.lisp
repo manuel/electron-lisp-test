@@ -1,5 +1,5 @@
 ;;;;; Main Lisp server entry point
-(ql:quickload '(:websocket-driver-server :clack))
+(ql:quickload '(:websocket-driver-server :clack :yason))
 
 (defconstant +server+ :hunchentoot)
 
@@ -14,9 +14,9 @@
      ((string= "/ws" (getf env :request-uri))
       (let ((ws (make-server env)))
         (on :message ws
-            (lambda (message)
-              (print message)
-              (send ws message)))
+            (lambda (msg)
+              (let ((msg-obj (yason:parse msg)))
+                (send ws (gethash "text" msg-obj)))))
         (lambda (responder)
           (declare (ignore responder))
           (start-connection ws))))
