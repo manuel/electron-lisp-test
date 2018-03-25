@@ -1,4 +1,4 @@
-webapp = {};
+var webapp = module.exports;
 
 webapp.load = function() {
     var url = "ws://localhost:8080/ws";
@@ -8,7 +8,7 @@ webapp.load = function() {
         ws.send(JSON.stringify(msg));
     };
     ws.onmessage = function(evt) {
-        alert("received: " + JSON.parse(evt.data).text);
+        alert("received2: " + JSON.parse(evt.data).text);
     };
     ws.onclose = function(evt) {
         alert(evt);

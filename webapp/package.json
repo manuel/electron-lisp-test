@@ -1,0 +1,5 @@
+{
+    "scripts": {
+        "webapp": "browserify main.js -s webapp -o script.js"
+    }
+}
