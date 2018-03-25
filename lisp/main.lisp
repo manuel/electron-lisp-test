@@ -19,6 +19,7 @@
                 (send ws (message-to-json message)))))
         (lambda (responder)
           (declare (ignore responder))
+          (start-threads ws)
           (start-connection ws))))
      ((string= "/script.js" (getf env :request-uri))
       `(200 (:content-type "text/javascript")
@@ -40,11 +41,11 @@
 
 (defclass message ()
   ((text :accessor message-text :initarg :text)
-   (type :accessor message-type :initarg :type)
-   (channel :accessor message-channel :initarg :channel)
+   (type :accessor message-type :initarg :type :initform "default")
+   (channel :accessor message-channel :initarg :channel :initform "#main")
    (id :accessor message-id :initarg :id)))
 
-(defun make-message (&key type text channel id &rest args)
+(defun make-message (&rest args)
   (apply #'make-instance 'message args))
 
 (defun json-to-message (json)
@@ -64,9 +65,13 @@
     (with-output-to-string (*standard-output*)
       (yason:encode ht))))
 
-#|
-(defclass channel ()
-  ((messages :accessor messages-of)
-   (message-count :accessor message-count-of)))
+(defun start-threads (ws)
+  "Start sample threads that send messages on this websocket."
+  (mp:process-run-function
+   "time"
+   '()
+   (lambda ()
+     (loop
+      (send ws (message-to-json (make-message :text "Hello" :id 1)))
+      (sleep 1)))))
 
-|#
