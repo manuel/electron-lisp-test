@@ -1,8 +1,5 @@
 ;; Save the current Lisp state to a standalone executable
 
-#+ccl
-(save-application "lisp/run" :toplevel-function 'main :prepend-kernel t)
-
 #+lispworks
 (progn
   (load-all-patches)
