@@ -28,10 +28,10 @@ function load() {
     // Spawn Lisp executable
     lispProcess = spawn(path.resolve(__dirname, "lisp/run"), [], { cwd: __dirname });
     lispProcess.stdout.on("data", function(data) {
-            dialog.showErrorBox("Lisp stdout:", ab2str(data));
+            //dialog.showErrorBox("Lisp stdout:", ab2str(data));
         });
     lispProcess.stderr.on("data", function(data) {
-            dialog.showErrorBox("Lisp stderr: ", ab2str(data));
+            //dialog.showErrorBox("Lisp stderr: ", ab2str(data));
         });
 
     // Create window
