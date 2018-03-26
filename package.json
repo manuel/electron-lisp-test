@@ -4,9 +4,6 @@
     "electron-packager": "^10.1.1"
   },
   "dependencies": {
-    "arraybuffer-to-string": "^1.0.2",
-    "async": "^2.6.0",
-    "electron": "^1.7.10",
-    "ws": "^5.1.0"
+    "electron": "^1.7.10"
   }
 }
