@@ -60,8 +60,9 @@ webapp.load = function() {
     var store = new webapp.ChannelStore(url);
     ReactDOM.render(React.createElement(webapp.ChannelComponent, { store: store }, null),
                     document.getElementById("content"));
+    var elt = document.getElementById("input_text");
+    elt.focus();
     document.getElementById("input_form").onsubmit = function() {
-        var elt = document.getElementById("input_text");
         var text = elt.value;
         store.ws.send(JSON.stringify({ text: text }));
         elt.value = "";
