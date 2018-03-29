@@ -15,4 +15,5 @@ cd ..
 
 # Package everything into macOS application bundle
 rm -rf "$APP_NAME-darwin-x64"
+npm i
 electron-packager . $APP_NAME
