@@ -9,6 +9,7 @@ mv run-lw lisp/run
 
 # Browserify
 cd webapp
+npm i
 npm run-script webapp
 cd ..
 
