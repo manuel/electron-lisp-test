@@ -25,7 +25,13 @@ sudo npm install electron-packager browserify -g
 # Build macOS application
 
 ....
-./build.sh
+./build-macos.sh
+....
+
+# Build Linux application
+
+....
+./build-linux.sh
 ....
 
 # Caveats
