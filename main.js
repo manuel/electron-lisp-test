@@ -36,4 +36,5 @@ function quit() {
         lispProcess.kill("SIGKILL");
         lispProcess = null;
     }
+    app.exit(0);
 }
