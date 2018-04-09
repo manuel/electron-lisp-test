@@ -23,6 +23,7 @@ npm install electron-packager browserify -g
 npm i
 cd webapp
 npm i
+npm run-script webapp
 cd ..
 ....
 

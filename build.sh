@@ -14,12 +14,5 @@ else
 fi
 mv run-lw lisp/run
 
-# Browserify
-cd webapp
-npm i
-npm run-script webapp
-cd ..
-
 # Package
-npm i
 electron-packager --overwrite . $APP_NAME
