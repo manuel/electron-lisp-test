@@ -1,3 +1,6 @@
 *~
 lisp/run
+lisp/run.exe
 node_modules/
+ElectronLisp-darwin-x64
+ElectronLispWin-win32-x64
