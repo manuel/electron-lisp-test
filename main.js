@@ -14,6 +14,7 @@ var MAIN_URL = "http://localhost:8080";
 app.on("ready", load);
 
 app.on("quit", quit);
+app.on("window-all-closed", quit);
 
 // Keep reference to window to prevent it being GC'ed
 var mainWindow = null;
