@@ -10,7 +10,7 @@ if [ "$PLATFORM" == "macos" ]
 then
     /Applications/LispWorks\ 7.1\ \(64-bit\)/LispWorks\ \(64-bit\).app/Contents/MacOS/lispworks-7-1-0-amd64-darwin -build lisp/save-app.lisp
 else
-    ../LispWorks/lispworks-7-1-0-amd64-linux -build lisp/save-app.lisp
+    /usr/local/lib64/LispWorks/lispworks-7-1-0-amd64-linux -build lisp/save-app.lisp
 fi
 mv run-lw lisp/run
 
