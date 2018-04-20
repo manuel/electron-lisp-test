@@ -11,4 +11,4 @@
     (when (probe-file quicklisp-init)
       (load quicklisp-init)))
   (load "./lisp/main.lisp")
-  (deliver 'main "run-lw" 0 :interface :capi :keep-pretty-printer t))
+  (deliver 'main "run-lw" 0 :interface :capi :keep-pretty-printer t :startup-bitmap-file nil))

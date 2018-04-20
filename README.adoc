@@ -12,22 +12,35 @@ WebSockets server.
 
 ## LispWorks
 
-* LispWorks 7.1.0.
+* LispWorks 7.1.0 + latest patches
 
 * Quicklisp is required.
 
-# Install
+# One-time install (for all platforms)
 
 ....
-sudo npm install electron-packager browserify -g
+npm install electron-packager browserify -g
+npm i
+cd webapp
+npm i
+npm run-script webapp
+cd ..
 ....
 
 # Build macOS application
 
 ....
-./build.sh
+./build-macos.sh
 ....
 
-# Caveats
+# Build Linux application
 
-Doesn't do any error handling, just a plain proof of concept.
+....
+./build-linux.sh
+....
+
+# Build Windows application
+
+....
+build.bat
+....
